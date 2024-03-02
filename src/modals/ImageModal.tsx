@@ -8,6 +8,8 @@ import getImageStatistics from "../services/getImageStatistic";
 import { FaLocationDot, FaUsersViewfinder } from "react-icons/fa6";
 import { FcLikePlaceholder } from "react-icons/fc";
 
+import LoadingSpiner from "../components/LoadingSpin/LoadingSpiner";
+
 export default function ImageModal({
   closeModal,
   data,
@@ -18,7 +20,6 @@ export default function ImageModal({
   const [statistics, setStatistics] = useState<Statistics | null>(
     null
   );
-  console.log(data);
 
   const date = new Date(data.created_at);
   const createdAt = date.toLocaleDateString("en-US", {
@@ -58,42 +59,69 @@ export default function ImageModal({
           </button>
         </div>
         <div className="original-image">
-          <img src={data.urls.full} alt="" />
+          <img
+            alt={data.alt_description}
+            srcSet={`${data.urls.small} 400w, ${data.urls.regular} 800w, ${data.urls.full} 1200w`}
+          />
         </div>
         <div className="image-details">
-          <div className="details-container">
-            <RiDownloadCloudFill className="icon" />
-            <span className="detail">
-              {formatNumbers(statistics?.downloads.total)}
-            </span>
-          </div>
-          <div className="details-container">
-            <FaUsersViewfinder className="icon" />
-            <span className="detail">
-              {formatNumbers(statistics?.views.total)}
-            </span>
-          </div>
-          <div className="details-container">
-            <FcLikePlaceholder className="icon" />
-            <span className="detail">
-              {formatNumbers(data.likes)}
-            </span>
-          </div>
+          {statistics?.downloads.total ||
+          statistics?.downloads.total === 0 ? (
+            <div className="details-container">
+              <abbr title="Downloads" className="details-container">
+                <RiDownloadCloudFill className="icon" />
+                <span className="detail">
+                  {formatNumbers(statistics.downloads.total)}
+                </span>
+              </abbr>
+            </div>
+          ) : (
+            <LoadingSpiner />
+          )}
+          {statistics?.views.total ||
+          statistics?.views.total === 0 ? (
+            <div className="details-container">
+              <abbr title="Views" className="details-container">
+                <FaUsersViewfinder className="icon" />
+                <span className="detail">
+                  {formatNumbers(statistics.views.total)}
+                </span>
+              </abbr>
+            </div>
+          ) : (
+            <LoadingSpiner />
+          )}
+          {data.likes || data.likes === 0 ? (
+            <div className="details-container">
+              <abbr title="Likes" className="details-container">
+                <FcLikePlaceholder className="icon" />
+                <span className="detail">
+                  {formatNumbers(data.likes)}
+                </span>
+              </abbr>
+            </div>
+          ) : (
+            <LoadingSpiner />
+          )}
         </div>
         <div className="desription">
-          <p>{data.description}</p>
+          {data.description && <p>{data.description}</p>}
         </div>
-        <div className="published">
-          <p>
-            <MdPublish className="icon" /> Published on {createdAt}
-          </p>
-        </div>
-        <div className="location">
-          <p>
-            <FaLocationDot className="icon" />
-            {data.user.location}
-          </p>
-        </div>
+        {createdAt && (
+          <div className="published">
+            <p>
+              <MdPublish className="icon" /> Published on {createdAt}
+            </p>
+          </div>
+        )}
+        {data.user.location && (
+          <div className="location">
+            <p>
+              <FaLocationDot className="icon" />
+              {data.user.location}
+            </p>
+          </div>
+        )}
       </div>
     </>
   );

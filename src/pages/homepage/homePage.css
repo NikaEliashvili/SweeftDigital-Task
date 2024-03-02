@@ -3,3 +3,23 @@
     flex-wrap: wrap;
     gap: 0.5rem;
 }
+
+.searchbar-container {
+    margin: 2rem 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+
+.results-span {
+    display: block;
+    font-size: 1rem;
+    margin-right: auto;
+    margin-left: 0.3rem;
+    margin-bottom: 0.3rem;
+    text-align: left;
+    font-weight: 600;
+    color: rgb(150, 149, 149);
+}

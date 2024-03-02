@@ -1,0 +1,20 @@
+.loading-spiner {
+    width: 20px;
+    height: 20px;
+    border-right: 2px dashed rgb(229, 221, 221);
+    border-top: 2px dashed rgb(229, 221, 221);
+    border-bottom: none;
+    border-left: none;
+    border-radius: 50%;
+    animation: spinner 0.4s linear infinite;
+}
+
+@keyframes spinner {
+    from {
+        transform: rotate(0);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}

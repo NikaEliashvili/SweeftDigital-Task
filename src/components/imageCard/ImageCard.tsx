@@ -23,7 +23,7 @@ export default function ImageCard({ data }: { data: Image }) {
           src={data.urls.regular}
           alt={data.alt_description}
         />
-        <span className="user-name">{data.user.name}</span>
+        <span className="user-name">By {data.user.name}</span>
       </div>
       {isModalOpen && (
         <ImageModal closeModal={closeModal} data={data} />
@@ -33,5 +33,5 @@ export default function ImageCard({ data }: { data: Image }) {
 }
 
 ImageCard.Skeleton = () => {
-  return <div className="image skeleton"></div>;
+  return <div className="image-skeleton"></div>;
 };

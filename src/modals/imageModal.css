@@ -91,7 +91,8 @@
 
 .original-image {
     margin-top: 1rem;
-    max-height: 580px;
+    min-height: 300px;
+    max-height: 425px;
 }
 
 .original-image img {
