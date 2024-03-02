@@ -13,7 +13,6 @@ export const fetchPopularImages = async (
         order_by: "popular",
       },
     });
-
     // Return the array of photos fetched from the Unsplash API
     return response.data;
   } catch (error: any) {

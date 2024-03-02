@@ -1,12 +1,14 @@
 import { useCallback, useEffect, useState } from "react";
 import { fetchPopularImages } from "../../services/fetchPopularImages";
-import { Image } from "../../types/types";
+import { CachedImages, Image } from "../../types/types";
 import ImageCard from "../../components/imageCard/ImageCard";
 
 import "./homePage.css";
 import SearchBar from "../../components/SearchBar/SearchBar";
 import searchImages from "../../services/searchImages";
 import useDebounce from "../../hooks/useDebounce";
+import { Link } from "react-router-dom";
+import { FaHistory } from "react-icons/fa";
 
 export default function HomePage() {
   const [popularImages, setPopularImages] = useState<Image[]>([]);
@@ -14,16 +16,16 @@ export default function HomePage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [searchBar, setSearchBar] = useState<string>("");
-  const [cachedImages, setCachedImages] = useState<{
-    [query: string]: Image[];
-  }>({});
+  const [cachedImages, setCachedImages] = useState<CachedImages>(
+    JSON.parse(localStorage.getItem("history") as string) || {}
+  );
 
-  const debouncedSearchBar = useDebounce(searchBar, 500);
+  const debouncedSearchBar = useDebounce(
+    searchBar.toLocaleLowerCase().trim(),
+    500
+  );
 
   useEffect(() => {
-    console.log({ searchBar });
-    console.log({ debouncedSearchBar });
-
     if (debouncedSearchBar && debouncedSearchBar.length > 0) {
       fetchImages(debouncedSearchBar);
     }
@@ -31,18 +33,21 @@ export default function HomePage() {
 
   const fetchImages = useCallback(
     async (searchQuery: string) => {
-      searchQuery = searchQuery.trim();
       try {
-        if (cachedImages[searchQuery]) {
-          setPopularImages(cachedImages[searchQuery]);
-        } else {
+        if (!cachedImages[searchQuery.trim()]) {
           const images = await searchImages(searchQuery);
           if (images) {
             setCachedImages((prevCachedImages) => ({
               ...prevCachedImages,
               [searchQuery]: images,
             }));
-            setPopularImages(images);
+            localStorage.setItem(
+              "history",
+              JSON.stringify({
+                ...cachedImages,
+                [searchQuery]: images,
+              })
+            );
           }
         }
       } catch (error) {
@@ -108,13 +113,18 @@ export default function HomePage() {
           name="search"
           handleChange={handleChange}
         />
+
+        <Link to="history" className="history-btn">
+          <FaHistory />
+          History
+        </Link>
       </div>
 
       {cachedImages &&
         cachedImages[debouncedSearchBar] &&
         cachedImages[debouncedSearchBar].length && (
           <span className="results-span">
-            Results for: {debouncedSearchBar}
+            Results for: {searchBar}
           </span>
         )}
 

@@ -7,9 +7,32 @@
 .searchbar-container {
     margin: 2rem 0;
     display: flex;
-    flex-direction: column;
     justify-content: center;
-    align-items: flex-start;
+    align-items: center;
+    gap: 1rem;
+}
+
+.history-btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: inherit;
+    font-weight: 600;
+    letter-spacing: -1px;
+    font-size: 1.125rem;
+    color: rgb(181, 179, 179);
+    background-color: rgb(56, 55, 55);
+    padding: 0.6rem 1rem;
+    border-radius: 0.5rem;
+    border: 2px solid transparent;
+    transition: all 0.125s linear;
+}
+
+.history-btn:hover {
+    color: rgb(194, 192, 192);
+    filter: brightness(1.25);
+    border-color: rgb(91, 90, 90);
 }
 
 

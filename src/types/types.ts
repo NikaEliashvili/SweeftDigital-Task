@@ -60,3 +60,7 @@ export interface Statistics {
     total: number;
   };
 }
+
+export interface CachedImages {
+  [query: string]: Image[];
+}

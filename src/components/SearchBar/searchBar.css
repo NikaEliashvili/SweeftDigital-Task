@@ -1,5 +1,7 @@
 .searchbar {
+    margin: 0 auto;
     width: 100%;
+    max-width: 800px;
     background-color: black;
     border-radius: 5rem;
     overflow: hidden;

@@ -20,7 +20,7 @@ export default function ImageCard({ data }: { data: Image }) {
       <div onClick={handleImageClick} className="image-card">
         <img
           width={150}
-          src={data.urls.regular}
+          src={data.urls.small}
           alt={data.alt_description}
         />
         <span className="user-name">By {data.user.name}</span>
